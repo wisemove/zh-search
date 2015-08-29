@@ -1,6 +1,4 @@
-<%@page contentType="text/html; charset=utf-8" %> 
-<%String path = request.getContextPath(); %>
-<!DOCTYPE html>
+<!DOCTYPE html><%@page contentType="text/html; charset=utf-8" %> <%String path = request.getContextPath(); %>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -9,9 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="Xenon Boostrap Admin Panel" />
 	<meta name="author" content="" />
-	
-	<title>Xenon - Dashboard</title>
-
+	<title>中翰搜索后台管理系统</title>
 <!-- 	<link rel="stylesheet" href="http://fonts.useso.com/css?family=Arimo:400,700,400italic"> -->
 	<link rel="stylesheet" href="<%=path %>/assets/css/fonts/linecons/css/linecons.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/fonts/fontawesome/css/font-awesome.min.css">
