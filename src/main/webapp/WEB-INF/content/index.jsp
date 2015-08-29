@@ -1,5 +1,9 @@
-<html>
-<body>
-测试页面
-</body>
-</html>
+<%@page contentType="text/html; charset=utf-8" %> 
+<%@include file="../commons/header.jsp" %>
+
+
+
+sssss
+
+
+<%@include file="../commons/footer.jsp" %>
