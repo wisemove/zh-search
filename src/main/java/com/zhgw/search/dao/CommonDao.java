@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zhgw.search.common.Conditions;
@@ -11,23 +12,44 @@ import com.zhgw.search.common.Page;
 import com.zhgw.search.common.Table;
 import com.zhgw.search.common.lang.Datable;
 import com.zhgw.search.util.BeanUtil;
+import com.zhgw.search.util.ReflectionUtils;
 
 /**
  * Face pattern .<br>
  * CommonDao power by yunjume 2014<br>
  * <b>@email</b> : <a href="http://yunjume@live.com">yunjume@live.com</a>
  */
-public abstract class CommonDao {
+public  class CommonDao<T> {
 
 	final Logger logger = LoggerFactory.getLogger(getClass());
 
+	
+	private  Class<T> clazz = null;
+	
+	private  String table = null;  
+	
+	/**
+	 * current spring context jdbcTemplate .
+	 * 
+	 * @return
+	 */
+	
+	@Autowired
+	private   JdbcTemplate jdbcTemplate;
+	
+	public CommonDao(){
+		
+		clazz = ReflectionUtils.getSuperClassGenricType(getClass());
+		table = BeanUtil.AT.getTableName(clazz);
+	}
+	
 	public Long queryCount(String sql, Object... args) {
 		if (sql == null || sql.trim().equals("")) {
 			logger.error("sql statement is null or empty ! ");
 			throw new NullPointerException();
 		}
 		printSQL(sql);
-		return getTemplate().queryForLong(sql, args);
+		return jdbcTemplate.queryForLong(sql, args);
 	}
 
 	/**
@@ -37,24 +59,17 @@ public abstract class CommonDao {
 	 * @param conditions
 	 * @return
 	 */
-	public Long queryCount(Class<?> clazz, Conditions conditions) {
+	public Long queryCount( Conditions conditions) {
 		if (conditions == null) {
 			logger.error("Conditions must be not null ");
 			throw new NullPointerException();
 		}
-
-		String table = BeanUtil.AT.getTableName(clazz);
 		String sql = conditions.toCountSQL(table);
 		return queryCount(sql);
 
 	}
 
-	/**
-	 * current spring context jdbcTemplate .
-	 * 
-	 * @return
-	 */
-	protected abstract JdbcTemplate getTemplate();
+	
 
 	/**
 	 * bean --> resultSet mapper class
@@ -74,7 +89,7 @@ public abstract class CommonDao {
 	 * @param args
 	 * @return
 	 */
-	public <T> Page<T> queryPage(Page<T> page, Class<T> clazz, String sql, Object... args) {
+	public  Page<T> queryPage(Page<T> page, String sql, Object... args) {
 		if (page == null) {
 			logger.warn("warn : current page is null ! init Page<T>(10) ");
 			page = new Page<T>(10);
@@ -102,7 +117,7 @@ public abstract class CommonDao {
 		} else {
 			objs = new Object[] { (page.getPageNo() - 1) * page.getPageSize(), page.getPageSize() };
 		}
-		List<T> list = this.getTemplate().query(sql, objs, BeanUtil.DR.getRowMapper(clazz));
+		List<T> list = (List<T>) this.jdbcTemplate.query(sql, objs, BeanUtil.DR.getRowMapper(clazz));
 		page.setResult(list);
 		return page;
 	}
@@ -116,7 +131,7 @@ public abstract class CommonDao {
 	 * @param conditions
 	 * @return
 	 */
-	public <T> Page<T> queryPage(Page<T> page, Class<T> clazz, Conditions conditions) {
+	public  Page<T> queryPage(Page<T> page, Conditions conditions) {
 		if (page == null) {
 			logger.warn("warn : current page is null ! init Page<T>(10) ");
 			page = new Page<T>(10);
@@ -125,13 +140,11 @@ public abstract class CommonDao {
 			logger.error("Conditions must be not null ");
 			throw new NullPointerException();
 		}
-
-		String table = BeanUtil.AT.getTableName(clazz);
 		String sql = conditions.toSQL(table);
 		sql = sql + (" limit ?,?");
 		printSQL(sql);
-		long totalCount = queryCount(clazz, conditions);
-		List<T> list = getTemplate().query(sql, new Object[] { (page.getPageNo() - 1) * page.getPageSize(), page.getPageSize() }, BeanUtil.DR.getRowMapper(clazz));
+		long totalCount = queryCount( conditions);
+		List<T> list = jdbcTemplate.query(sql, new Object[] { (page.getPageNo() - 1) * page.getPageSize(), page.getPageSize() }, BeanUtil.DR.getRowMapper(clazz));
 		page.setTotalCount(totalCount);
 		page.setResult(list);
 		return page;
@@ -146,8 +159,8 @@ public abstract class CommonDao {
 	 * @param args
 	 * @return
 	 */
-	public <T> List<T> queryAll(final Class<T> clazz, String sql, Object... args) {
-		return getTemplate().query(sql, args, BeanUtil.DR.getRowMapper(clazz));
+	public  List<T> queryAll( String sql, Object... args) {
+		return (List<T>) jdbcTemplate.query(sql, args, BeanUtil.DR.getRowMapper(clazz));
 	}
 
 	/**
@@ -159,15 +172,14 @@ public abstract class CommonDao {
 	 *            current query conditions
 	 * @return List&lt;T&gt;
 	 */
-	public <T> List<T> queryAll(final Class<T> clazz, Conditions conditions) {
+	public  List<T> queryAll( Conditions conditions) {
 		if (conditions == null) {
 			logger.error("Conditions must be not null ");
 			throw new NullPointerException();
 		}
-		String table = BeanUtil.AT.getTableName(clazz);
 		String sql = conditions.toSQL(table);
 		printSQL(sql);
-		List<T> list = getTemplate().query(sql, BeanUtil.DR.getRowMapper(clazz));
+		List<T> list = jdbcTemplate.query(sql, BeanUtil.DR.getRowMapper(clazz));
 		return list;
 	}
 
@@ -179,8 +191,8 @@ public abstract class CommonDao {
 	 * @param conditions
 	 * @return
 	 */
-	public <T> T queryUnique(final Class<T> clazz, Conditions conditions) {
-		List<T> ls = queryAll(clazz, conditions);
+	public  T queryUnique( Conditions conditions) {
+		List<T> ls = queryAll(conditions);
 		if (ls != null && ls.size() > 0)
 			return ls.get(0);
 		logger.error("query Unique . no row returned .");
@@ -207,12 +219,12 @@ public abstract class CommonDao {
 	 *            conditions
 	 * @return
 	 */
-	public Datable queryUnique(String table, Class<? extends Datable> clazz, Conditions c) {
+	public Datable queryUnique(Class<? extends Datable> clazz, Conditions c) {
 
-		String sql = c.toSQL(table);
+		String sql = c.toSQL(BeanUtil.AT.getTableName(clazz));
 		printSQL(sql);
 		@SuppressWarnings("unchecked")
-		List<Datable> ls = (List<Datable>) getTemplate().query(sql, BeanUtil.DR.getRowMapper(clazz));
+		List<Datable> ls = (List<Datable>) jdbcTemplate.query(sql, BeanUtil.DR.getRowMapper(clazz));
 		if (ls != null && ls.size() > 0)
 			return ls.get(0);
 		logger.warn("query Unique . no row returned ");

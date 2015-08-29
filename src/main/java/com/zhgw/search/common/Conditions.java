@@ -67,11 +67,31 @@ public class Conditions {
 	 * @param middleHandle
 	 * @return
 	 */
-	public Conditions addMH(String middleHandle) {
+	/*public Conditions addMH(String middleHandle) {
 		this.middleHandle = " " + middleHandle + " ";
 		return this;
 	}
-
+*/
+	
+	/**
+	 * AND 
+	 * @return
+	 */
+	public Conditions AND() {
+		this.middleHandle = " and ";
+		return this;
+	}
+	
+	/**
+	 * OR
+	 * @return
+	 */
+	public Conditions OR() {
+		this.middleHandle = " or ";
+		return this;
+	}
+	
+	
 	private void add(String opera, String key, Object value) {
 		if (!sb.toString().isEmpty()) {
 			sb.append(this.middleHandle);
