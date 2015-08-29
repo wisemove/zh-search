@@ -25,4 +25,12 @@ public class IndexController {
 		System.out.println("aaa");
 		return "index";
 	}
+	
+	
+	@RequestMapping("login")
+	public String login_index(){
+		
+		
+		return "login";
+	}
 }
