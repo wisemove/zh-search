@@ -13,6 +13,7 @@ import com.zhgw.search.common.Page;
 import com.zhgw.search.common.Table;
 import com.zhgw.search.common.lang.Datable;
 import com.zhgw.search.util.BeanUtil;
+import com.zhgw.search.util.BeanUtil.SQLTransformUtil.InsertBin;
 import com.zhgw.search.util.ReflectionUtils;
 
 /**
@@ -28,6 +29,7 @@ public  class CommonDao<T> {
 	private  Class<T> clazz = null;
 	
 	private  String table = null;  
+	
 	
 	/**
 	 * current spring context jdbcTemplate .
@@ -237,7 +239,29 @@ public  class CommonDao<T> {
 		logger.warn("query Unique . no row returned ");
 		return null;
 	}
+	
+	
+	
+	public void save(T t){
+		InsertBin bin = BeanUtil.SQLT.insertSql(t);
+		String sql = bin.sql;
+		printSQL(sql);
+	    this.jdbcTemplate.update(sql, bin.param);
+	}
 
+	public void update(T t){
+		InsertBin bin = BeanUtil.SQLT.updateSql(t,true);
+		String sql = bin.sql;
+		printSQL(sql);
+	    this.jdbcTemplate.update(sql, bin.param);
+	}
+	
+	public void updateNotNull(T t){
+		InsertBin bin = BeanUtil.SQLT.updateSql(t,false);
+		String sql = bin.sql;
+		printSQL(sql);
+	    this.jdbcTemplate.update(sql, bin.param);
+	}
 	void printSQL(String sql) {
 
 		logger.info("sql : {}", sql);

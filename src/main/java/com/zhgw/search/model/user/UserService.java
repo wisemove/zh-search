@@ -1,5 +1,7 @@
 package com.zhgw.search.model.user;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Service;
 
 import com.zhgw.search.common.Conditions;
@@ -16,6 +18,21 @@ public class UserService extends CommonDao<UserEntity>{
 		UserEntity un = this.queryUnique(con);
 		
 		return un ;
+	}
+	
+	
+	public void save(){
+		UserEntity ue = new UserEntity();
+		ue.setAge(11);
+		ue.setCreateDate(new Date());
+		ue.setIsValid(1);
+		ue.setPassword("password");
+		ue.setUserName("userName");
+		ue.setPhone("13888888888");
+		ue.setEmail("120182000@qq.com");
+		ue.setRealName("yujunminf");
+		ue.setId(1234);
+		this.save(ue);
 	}
 	
 }

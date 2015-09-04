@@ -2,12 +2,13 @@ package com.zhgw.search.model.user;
 
 import java.util.Date;
 
+import com.zhgw.search.common.Id;
 import com.zhgw.search.common.Table;
 
 @Table(name="t_user")
 public class UserEntity {
 
-	
+	@Id()
 	private long id ;
 	
 	private String userName ; 
