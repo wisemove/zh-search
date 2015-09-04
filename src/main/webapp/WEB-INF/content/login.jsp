@@ -5,12 +5,14 @@
 <%@include file="../commons/taglibs.jsp"%>
 <%@include file="../commons/scripts.jsp"%>
 <title>${menuName }</title>
+
+<link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/signin.css">
 </head>
 <html>
 <!--内容部分开始-->
 <div class="container" style="margin-top: 40px;">
 	<form class="form-signin"
-		action="<%=request.getContextPath()%>/loginx.do" role="form"
+		action="<%=request.getContextPath()%>/loginx.htm" role="form"
 		method="post">
 		<h2 id="msg" class="form-signin-heading">输入你的通行证</h2>
 		<input type="text" class="form-control" name="userName"

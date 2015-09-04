@@ -6,14 +6,7 @@ import com.zhgw.search.common.Conditions;
 import com.zhgw.search.dao.CommonDao;
 
 @Service
-public class IndexService extends CommonDao<UserEntity>{
+public class IndexService extends CommonDao<UserEntity> {
 
-	public void test() {
 
-		Conditions con = new Conditions();
-		System.out.println(this.queryAll(con));
-		
-	}
-
-	
 }

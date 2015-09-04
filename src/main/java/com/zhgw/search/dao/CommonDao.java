@@ -1,5 +1,6 @@
 package com.zhgw.search.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -117,6 +118,7 @@ public  class CommonDao<T> {
 		} else {
 			objs = new Object[] { (page.getPageNo() - 1) * page.getPageSize(), page.getPageSize() };
 		}
+		
 		List<T> list = (List<T>) this.jdbcTemplate.query(sql, objs, BeanUtil.DR.getRowMapper(clazz));
 		page.setResult(list);
 		return page;
@@ -144,7 +146,10 @@ public  class CommonDao<T> {
 		sql = sql + (" limit ?,?");
 		printSQL(sql);
 		long totalCount = queryCount( conditions);
-		List<T> list = jdbcTemplate.query(sql, new Object[] { (page.getPageNo() - 1) * page.getPageSize(), page.getPageSize() }, BeanUtil.DR.getRowMapper(clazz));
+		List<Serializable> param = conditions.getParamterList();
+		param.add((page.getPageNo() - 1) * page.getPageSize());
+		param.add(page.getPageSize());
+		List<T> list = jdbcTemplate.query(sql, param.toArray(), BeanUtil.DR.getRowMapper(clazz));
 		page.setTotalCount(totalCount);
 		page.setResult(list);
 		return page;
@@ -178,8 +183,9 @@ public  class CommonDao<T> {
 			throw new NullPointerException();
 		}
 		String sql = conditions.toSQL(table);
+		List<Serializable> paramters = conditions.getParamterList();
 		printSQL(sql);
-		List<T> list = jdbcTemplate.query(sql, BeanUtil.DR.getRowMapper(clazz));
+		List<T> list = jdbcTemplate.query(sql,paramters.toArray(), BeanUtil.DR.getRowMapper(clazz));
 		return list;
 	}
 
@@ -223,8 +229,9 @@ public  class CommonDao<T> {
 
 		String sql = c.toSQL(BeanUtil.AT.getTableName(clazz));
 		printSQL(sql);
+		List<Serializable> param = c.getParamterList();
 		@SuppressWarnings("unchecked")
-		List<Datable> ls = (List<Datable>) jdbcTemplate.query(sql, BeanUtil.DR.getRowMapper(clazz));
+		List<Datable> ls = (List<Datable>) jdbcTemplate.query(sql,param.toArray(), BeanUtil.DR.getRowMapper(clazz));
 		if (ls != null && ls.size() > 0)
 			return ls.get(0);
 		logger.warn("query Unique . no row returned ");
@@ -233,7 +240,7 @@ public  class CommonDao<T> {
 
 	void printSQL(String sql) {
 
-		logger.info("FQL : {}", sql);
+		logger.info("sql : {}", sql);
 	}
 
 }

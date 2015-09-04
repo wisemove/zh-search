@@ -14,11 +14,13 @@ public class IndexController {
 	@Autowired
 	private IndexService indexService;
 	
+	
+	@Autowired 
+	private UserService userService;
+	
 	@RequestMapping(value="index")
 	public String index(Model model ){
 		
-		indexService.test();
-		System.out.println("aaa");
 		return "index";
 	}
 	
@@ -26,7 +28,20 @@ public class IndexController {
 	@RequestMapping("login")
 	public String login_index(){
 		
-		
 		return "login";
 	}
+	@RequestMapping("loginx")
+	public String loginex_index(String userName ,String password,Model model ){
+		UserEntity ue = userService.chkUser(userName, password);
+		System.out.println(userName +"   "+ password);
+		
+		if(ue ==null ){
+			model .addAttribute("msg", "用户名或密码错误.");
+			return "login";
+		}
+		
+		return "index";
+	}
+	
+	
 }

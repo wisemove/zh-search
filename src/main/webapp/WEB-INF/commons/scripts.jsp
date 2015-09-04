@@ -1,4 +1,4 @@
-<%@page contentType="text/html; charset=utf-8" %> 
+<%@page contentType="text/html;charset=utf-8" %> 
 <%String path = request.getContextPath(); %>
 <link rel="stylesheet" href="http://fonts.useso.com/css?family=Arimo:400,700,400italic">
 	<link rel="stylesheet" href="<%=path %>/assets/css/fonts/linecons/css/linecons.css">

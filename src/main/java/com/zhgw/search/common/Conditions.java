@@ -1,5 +1,9 @@
 package com.zhgw.search.common;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * FactHQ: QBC .Query by Object
  * 
@@ -11,7 +15,7 @@ public class Conditions {
 
 	private StringBuffer sb;
 
-	private String middleHandle = "AND";
+	private String middleHandle = " and ";
 
 	private StringBuffer selectBuffer;
 
@@ -34,27 +38,27 @@ public class Conditions {
 	 * @param value
 	 * @return
 	 */
-	public Conditions eq(String key, Object value) {
+	public Conditions eq(String key, Serializable value) {
 		add("=", key, value);
 		return this;
 	}
 
-	public Conditions rLike(String key, Object value) {
+	public Conditions rLike(String key, Serializable value) {
 		add(" like ", key, "%" + value);
 		return this;
 	}
 
-	public Conditions lLike(String key, Object value) {
+	public Conditions lLike(String key, Serializable value) {
 		add(" like ", key, value + "%");
 		return this;
 	}
 
-	public Conditions like(String key, Object value) {
+	public Conditions like(String key, Serializable value) {
 		add(" like ", key, "%" + value + "%");
 		return this;
 	}
 
-	public Conditions neq(String key,Object value){
+	public Conditions neq(String key,Serializable value){
 		add("<>", key, value);
 		return this;
 	}
@@ -91,18 +95,26 @@ public class Conditions {
 		return this;
 	}
 	
+	private List<Serializable> paramter_list = new ArrayList<Serializable> (); 
 	
-	private void add(String opera, String key, Object value) {
+	
+	public  List<Serializable> getParamterList (){
+		return paramter_list;
+	}
+	
+	private void add(String opera, String key, Serializable value) {
 		if (!sb.toString().isEmpty()) {
 			sb.append(this.middleHandle);
 		}
 		sb.append(key);
 		sb.append(opera);
-		if (value instanceof String) {
+		/*if (value instanceof String) {
 			sb.append("'").append(value).append("'");
 		} else {
 			sb.append(value);
-		}
+		}*/
+		sb.append("?");
+		paramter_list.add(value);
 	}
 
 	/**
@@ -112,7 +124,7 @@ public class Conditions {
 	 * @param value
 	 * @return
 	 */
-	public Conditions gt(String key, Object value) {
+	public Conditions gt(String key, Serializable value) {
 		add(">", key, value);
 		return this;
 	}
@@ -124,7 +136,7 @@ public class Conditions {
 	 * @param value
 	 * @return
 	 */
-	public Conditions lt(String key, Object value) {
+	public Conditions lt(String key, Serializable value) {
 		add("<", key, value);
 		return this;
 	}
@@ -136,7 +148,7 @@ public class Conditions {
 	 * @param value
 	 * @return
 	 */
-	public Conditions eg(String key, Object value) {
+	public Conditions eg(String key, Serializable value) {
 		add(">=", key, value);
 		return this;
 	}
@@ -148,7 +160,7 @@ public class Conditions {
 	 * @param value
 	 * @return
 	 */
-	public Conditions el(String key, Object value) {
+	public Conditions el(String key, Serializable value) {
 		add("<=", key, value);
 		return this;
 	}
