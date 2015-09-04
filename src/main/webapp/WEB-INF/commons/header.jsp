@@ -33,7 +33,7 @@
 
 
 
-<body class="page-body">
+<body class="page-body" >
 
 	<div class="settings-pane">
 			
