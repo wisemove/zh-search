@@ -7,7 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="Xenon Boostrap Admin Panel" />
 	<meta name="author" content="" />
-	<title>中翰搜索后台管理系统</title>
+	<%String titleName = request.getParameter("titleName"); if(titleName ==null ) titleName ="";%>
+	<title>中翰搜索后台管理系统-<%=titleName %></title>
 <!-- 	<link rel="stylesheet" href="http://fonts.useso.com/css?family=Arimo:400,700,400italic"> -->
 	<link rel="stylesheet" href="<%=path %>/assets/css/fonts/linecons/css/linecons.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/fonts/fontawesome/css/font-awesome.min.css">
@@ -17,13 +18,16 @@
 	<link rel="stylesheet" href="<%=path %>/assets/css/xenon-components.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/xenon-skins.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/custom.css">
-
+    <link href="<%=path %>/assets/js/wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet">
+    <link href="<%=path %>/assets/js/uikit/vendor/codemirror/codemirror.css" rel="stylesheet">
+    <link href="<%=path %>/assets/js/uikit/uikit.css" rel="stylesheet">
+    <link href="<%=path %>/assets/js/uikit/css/addons/uikit.almost-flat.addons.min.css" rel="stylesheet">
 	<script src="<%=path %>/assets/js/jquery-1.11.1.min.js"></script>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
+		<script src="<%=path %>/assets/js/respond.min.js"></script>
 	<![endif]-->
 </head>
 
@@ -47,14 +51,14 @@
 						
 						<div class="user-image">
 							<a href="extra-profile.html">
-								<img src="assets/images/user-2.png" class="img-responsive img-circle" />
+								<img src="<%=path %>/assets/images/user-2.png" class="img-responsive img-circle" />
 							</a>
 						</div>
 						
 						<div class="user-details">
 							
 							<h3>
-								<a href="extra-profile.html">John Smith</a>
+								<a href="extra-profile.html">${USER_SESSION_ATTR.realName }</a>
 								
 								<!-- Available statuses: is-online, is-idle, is-busy and is-offline -->
 								<span class="user-status is-online"></span>
@@ -157,11 +161,11 @@
 					<!-- logo -->
 					<div class="logo">
 						<a href="dashboard-1.html" class="logo-expanded">
-							<img src="assets/images/logo@2x.png" width="80" alt="" />
+							<img src="<%=path %>/assets/images/logo@2x.png" width="80" alt="" />
 						</a>
 						
 						<a href="dashboard-1.html" class="logo-collapsed">
-							<img src="assets/images/logo-collapsed@2x.png" width="40" alt="" />
+							<img src="<%=path %>/assets/images/logo-collapsed@2x.png" width="40" alt="" />
 						</a>
 					</div>
 					
@@ -1017,42 +1021,42 @@
 					
 					<li class="dropdown user-profile">
 						<a href="#" data-toggle="dropdown">
-							<img src="assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+							<img src="<%=path %>/assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
 							<span>
-								Arlind Nushi
+								${USER_SESSION_ATTR.realName }
 								<i class="fa-angle-down"></i>
 							</span>
 						</a>
 						
 						<ul class="dropdown-menu user-profile-menu list-unstyled">
-							<li>
+							<!-- <li>
 								<a href="#edit-profile">
 									<i class="fa-edit"></i>
 									New Post
 								</a>
-							</li>
+							</li> -->
 							<li>
-								<a href="#settings">
+								<a href="<%=request.getContextPath() %>/user/resetpass.htm">
 									<i class="fa-wrench"></i>
-									Settings
+									修改密码
 								</a>
 							</li>
 							<li>
-								<a href="#profile">
+								<a href="#">
 									<i class="fa-user"></i>
-									Profile
+									个人信息
 								</a>
 							</li>
 							<li>
-								<a href="#help">
+								<a href="#">
 									<i class="fa-info"></i>
-									Help
+									帮助
 								</a>
 							</li>
 							<li class="last">
-								<a href="extra-lockscreen.html">
+								<a href="<%=request.getContextPath() %>/logout.htm">
 									<i class="fa-lock"></i>
-									Logout
+									注销
 								</a>
 							</li>
 						</ul>
