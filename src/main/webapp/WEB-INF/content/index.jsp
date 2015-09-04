@@ -1,9 +1,9 @@
 <%@page contentType="text/html; charset=utf-8" %> 
-<%@include file="../commons/header.jsp" %>
+<jsp:include page="../commons/header.jsp">
+<jsp:param value="首页" name="titleName"/>
+</jsp:include>
 
 
-
-sssss
 
 
 <%@include file="../commons/footer.jsp" %>

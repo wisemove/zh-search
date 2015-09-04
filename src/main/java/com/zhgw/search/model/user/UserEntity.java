@@ -1,4 +1,4 @@
-package com.zhgw.search.model.index;
+package com.zhgw.search.model.user;
 
 import java.util.Date;
 

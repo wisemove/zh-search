@@ -1,4 +1,4 @@
-package com.zhgw.search.model.index;
+package com.zhgw.search.model.user;
 
 import org.springframework.stereotype.Service;
 
@@ -17,4 +17,5 @@ public class UserService extends CommonDao<UserEntity>{
 		
 		return un ;
 	}
+	
 }

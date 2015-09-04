@@ -4,7 +4,7 @@
 <head>
 <%@include file="../commons/taglibs.jsp"%>
 <%@include file="../commons/scripts.jsp"%>
-<title>${menuName }</title>
+<title>登录中翰搜索后台管理系统</title>
 
 <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/signin.css">
 </head>
@@ -24,7 +24,7 @@
 	</form>
 </div>
 
-<jsp:include page="../commons/footer.jsp"></jsp:include>
+<%-- <jsp:include page="../commons/footer.jsp"></jsp:include> --%>
 <script type="text/javascript">
 	$(function() {
 		if ("${msg}" != "") {
