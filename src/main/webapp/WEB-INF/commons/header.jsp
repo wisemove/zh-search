@@ -18,12 +18,13 @@
 	<link rel="stylesheet" href="<%=path %>/assets/css/xenon-components.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/xenon-skins.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/custom.css">
+	<link rel="stylesheet" href="<%=path %>/assets/css/default/easyui.css">
 <%--     <link href="<%=path %>/assets/js/wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet">
     <link href="<%=path %>/assets/js/uikit/vendor/codemirror/codemirror.css" rel="stylesheet">
     <link href="<%=path %>/assets/js/uikit/uikit.css" rel="stylesheet">
     <link href="<%=path %>/assets/js/uikit/css/addons/uikit.almost-flat.addons.min.css" rel="stylesheet"> --%>
 	<script src="<%=path %>/assets/js/jquery-1.11.1.min.js"></script>
-
+  <script src="<%=path %>/assets/js/jquery.easyui.min.js"></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
@@ -214,7 +215,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="layout-collapsed-sidebar.html">
+								<a href="<%=request.getContextPath() %>/laws/index.htm">
 									<span class="title">法规录入</span>
 								</a>
 							</li>
