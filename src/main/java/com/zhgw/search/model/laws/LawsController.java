@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhgw.search.common.Conditions;
 import com.zhgw.search.common.context.WebContextConst;
 import com.zhgw.search.util.TreeUtil;
@@ -51,10 +52,24 @@ public class LawsController {
 	@RequestMapping(value="load-laws-tree")
 	@ResponseBody
 	public String load_laws_tree (String pid,Model model){
-		System.out.println(pid);
 		List<LawsEntity> entity  = this.lawsService.queryAll(new Conditions().eq("parentId", Integer.parseInt(pid)));
 		
 		return TreeUtil.toJson(entity);
 		
 	}
+	
+	
+	@RequestMapping("show-laws")
+	@ResponseBody
+	public String show_laws(String _id ){
+		
+		LawsEntity entity = this.lawsService.get(_id);
+		
+		String json =  JSONObject.toJSONString(entity);
+		
+		System.out.println(json);
+		
+		return json;
+	}
+	
 }

@@ -157,6 +157,10 @@ public  class CommonDao<T> {
 		return page;
 	}
 
+	public T get(Serializable id){
+		return this.queryUnique(new Conditions().eq("id", id));
+	}
+	
 	/**
 	 * Query All by statement
 	 * 

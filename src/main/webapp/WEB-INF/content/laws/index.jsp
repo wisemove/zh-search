@@ -4,7 +4,6 @@
 </jsp:include>
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/default/easyui.css">
 	 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/assets/css/icon.css">
- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/assets/css/demo.css">
 	 <script src="<%=request.getContextPath() %>/assets/js/jquery.easyui.min.js"></script>
  
 <div class="panel" style="min-height: 500px; overflow: auto;">
@@ -15,25 +14,20 @@
   <div id="tt">
   </div>
       <div id="mm" class="easyui-menu" style="width:120px; display: none;">
-        <div onclick="append()" data-options="iconCls:'icon-add'">Append</div>
-        <div onclick="removeit()" data-options="iconCls:'icon-remove'">Remove</div>
+        <div onclick="append()" data-options="iconCls:'icon-add'">添加</div>
+        <div onclick="update()" data-options="iconCls:'icon-remove'">修改</div>
+        <div onclick="removeit()" data-options="iconCls:'icon-cancel'">删除</div>
         <div class="menu-sep"></div>
-        <div onclick="expand()">Expand</div>
-        <div onclick="collapse()">Collapse</div>
+        <div onclick="refresh()" data-options="iconCls:'icon-reload'">刷新</div>
     </div>  
  </div>
 </div>
  <div style="float: right; width: 56% ; margin-left: 20px; ">
   <div style="padding: 10px; margin-top: 10px;" >
-    <div style="width:100%; line-height: 23px; letter-spacing: 1px; font-size: 13px;" readonly="readonly">&nbsp;&nbsp;&nbsp;&nbsp;树数据的格式（Tree data format）
-每个节点可以包含下列特性：
-id：节点的 id，它对于加载远程数据很重要。
-text：显示的节点文字。
-state：节点状态， 'open' 或 'closed'，默认是 'open'。当设为 'closed' 时，此节点有子节点，并且将从远程站点加载它们。
-checked：指示节点是否被选中。 Indicate whether the node is checked selected.
-attributes：给一个节点追加的自定义属性。
-children：定义了一些子节点的节点数组。
-示例： </div>
+    <div style="width:100%; line-height: 23px; letter-spacing: 1px; font-size: 13px;" readonly="readonly">
+      <div id="laws_title"style="width: 100%; text-align: center; font-size: 17px;"></div>
+      <div id="laws_content"style="width: 100%; text-align: left; font: 13px;margin-top: 12px;"></div>
+   </div>
   </div>
  </div>   
     <script type="text/javascript">
@@ -53,7 +47,10 @@ children：定义了一些子节点的节点数组。
             },
 	        onClick:function(node){
 	        	nodeId =node.id;
-	        	alert(node.id)
+	        	$.post('show-laws.htm',{'_id':node.id},function(resp){
+	        		$("#laws_title").html(resp.title);
+	        		$("#laws_content").html("&nbsp;&nbsp;&nbsp;&nbsp;"+resp.content);
+	        	},'json');
 	        },
 	        onContextMenu: function(e,node){
                 e.preventDefault();
@@ -82,13 +79,14 @@ children：定义了一些子节点的节点数组。
         var node = $('#tt').tree('getSelected');
         $('#tt').tree('remove', node.target);
     }
-    function collapse(){
+    function update(){
         var node = $('#tt').tree('getSelected');
         $('#tt').tree('collapse',node.target);
     }
-    function expand(){
-        var node = $('#tt').tree('getSelected');
-        $('#tt').tree('expand',node.target);
+    function refresh(){
+     //   var node = $('#tt').tree('getSelected');
+        $('#tt').tree('options').url = "load-laws-tree.htm?pid=0";
+        $('#tt').tree('reload');
     }
    
      
