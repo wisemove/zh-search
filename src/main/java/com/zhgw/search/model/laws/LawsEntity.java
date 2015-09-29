@@ -2,10 +2,11 @@ package com.zhgw.search.model.laws;
 
 import com.zhgw.search.common.Id;
 import com.zhgw.search.common.Table;
+import com.zhgw.search.util.Tree;
 
 
 @Table(name="t_laws")
-public class LawsEntity {
+public class LawsEntity implements Tree{
 
 	
 	@Id
@@ -61,6 +62,24 @@ public class LawsEntity {
 
 	public void setParentId(long parentId) {
 		this.parentId = parentId;
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return this.getTitle();
+	}
+
+	@Override
+	public String getState() {
+		// TODO Auto-generated method stub
+		return "closed";
+	}
+
+	@Override
+	public boolean isChecked() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

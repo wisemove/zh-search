@@ -2,9 +2,9 @@
 <jsp:include page="../../commons/header.jsp">
 <jsp:param value="修改密码" name="titleName"/>
 </jsp:include>
-<div class="panel">
+<div class="panel" style="height: 500px;">
 <div class="">
-					<div class="panel panel-default">
+					<div class="panel panel-default" style="height: 400px;">
 						<div class="panel-heading">
 							<h3 class="panel-title">修改密码</h3>
 							<div class="panel-options">

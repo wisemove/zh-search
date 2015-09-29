@@ -32,6 +32,8 @@
 						</beans:list>
 					</beans:property>
 				</beans:bean>
+					<beans:bean
+					class="com.zhgw.search.util.ContextJsonConverter" />
 				<beans:bean
 					class="org.springframework.http.converter.ResourceHttpMessageConverter" />
 				<beans:bean

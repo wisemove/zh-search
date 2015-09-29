@@ -1,12 +1,16 @@
 package com.zhgw.search.model.laws;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zhgw.search.common.Conditions;
 import com.zhgw.search.common.context.WebContextConst;
+import com.zhgw.search.util.TreeUtil;
 
 @Controller
 @RequestMapping("laws")
@@ -42,5 +46,15 @@ public class LawsController {
 	public String query_laws(LawsEntity entity ,Model model ){
 		
 		return WebContextConst.LAWS_PATH.concat("laws-content");
+	}
+	
+	@RequestMapping(value="load-laws-tree")
+	@ResponseBody
+	public String load_laws_tree (String pid,Model model){
+		System.out.println(pid);
+		List<LawsEntity> entity  = this.lawsService.queryAll(new Conditions().eq("parentId", Integer.parseInt(pid)));
+		
+		return TreeUtil.toJson(entity);
+		
 	}
 }
