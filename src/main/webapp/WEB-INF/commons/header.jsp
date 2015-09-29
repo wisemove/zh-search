@@ -18,13 +18,13 @@
 	<link rel="stylesheet" href="<%=path %>/assets/css/xenon-components.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/xenon-skins.css">
 	<link rel="stylesheet" href="<%=path %>/assets/css/custom.css">
-	<link rel="stylesheet" href="<%=path %>/assets/css/default/easyui.css">
+
 <%--     <link href="<%=path %>/assets/js/wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet">
     <link href="<%=path %>/assets/js/uikit/vendor/codemirror/codemirror.css" rel="stylesheet">
     <link href="<%=path %>/assets/js/uikit/uikit.css" rel="stylesheet">
     <link href="<%=path %>/assets/js/uikit/css/addons/uikit.almost-flat.addons.min.css" rel="stylesheet"> --%>
 	<script src="<%=path %>/assets/js/jquery-1.11.1.min.js"></script>
-  <script src="<%=path %>/assets/js/jquery.easyui.min.js"></script>
+ 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
@@ -161,8 +161,8 @@
 					
 					<!-- logo -->
 					<div class="logo">
-						<a href="dashboard-1.html" class="logo-expanded">
-							<img src="<%=path %>/assets/images/logo@2x.png" width="80" alt="" />
+						<a href="<%=path %>/index.htm" class="logo-expanded">
+							<img src="<%=path %>/assets/images/logo@2x.png" width="200" alt="" />
 						</a>
 						
 						<a href="dashboard-1.html" class="logo-collapsed">
@@ -183,11 +183,11 @@
 					</div>
 					
 					<!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
-					<div class="settings-icon">
+					<!-- <div class="settings-icon">
 						<a href="#" data-toggle="settings-pane" data-animate="true">
 							<i class="linecons-cog"></i>
 						</a>
-					</div>
+					</div> -->
 					
 								
 				</header>
