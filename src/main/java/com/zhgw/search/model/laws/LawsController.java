@@ -31,10 +31,24 @@ public class LawsController {
 	
 	@ResponseBody
 	@RequestMapping("save-laws")
-	public String insert_laws(){
-		
+	public String insert_laws(LawsEntity entity){
+		if(entity!=null )
+			entity.setIsValid("1");
+		this.lawsService.save(entity);
 		return WebContextConst.SUCCESS;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping("delete-laws")
+	public String delete_laws(long _id ){
+		
+		LawsEntity law = new LawsEntity();
+		law.setId(_id);
+		lawsService.deleteLaws(law);
+		return WebContextConst.SUCCESS;
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping("update-laws")

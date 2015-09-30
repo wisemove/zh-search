@@ -73,18 +73,50 @@
     function append(){
         var t = $('#tt');
         var node = t.tree('getSelected');
-        t.tree('append', {
+        /* t.tree('append', {
             parent: (node?node.target:null),
             data: [{
                 text: 'new item1'
             },{
                 text: 'new item2'
             }]
-        });
+        }); */
+     	$("#title").val('');
+        $("#content").val('');
+        $("#parentId").val(node.id);
+        $("#add_dialog_title").html('添加法规');
+        jQuery('#add_dialog').modal('show');
+    }
+    function appendx (){
+         pid  = $("#parentId").val();
+    	 title = $("#title").val();
+    	 content = $("#content").val();
+    	 if(!title){
+    		 alert('标题不能为空');
+    		 return
+    	 }
+    	 $.post('save-laws.htm',{'title':title,'content':content,'parentId':pid},function(resp){
+    		alert(resp) ;
+    	 },'text');
+    	 jQuery('#add_dialog').modal('hide');
     }
     function removeit(){
         var node = $('#tt').tree('getSelected');
-        $('#tt').tree('remove', node.target);
+        if(node.id==1){
+        	alert("操作不允许!");
+        	return;
+        }
+        if(confirm("确定要删除这条法规吗?")){
+             $.post('delete-laws.htm',{'_id':node.id},function(res){
+            	 if(res=='SUCCESS'){
+            		 $('#tt').tree('remove', node.target);
+            	 }else{
+            		 alert('删除失败 请稍候再试!');
+            	 }
+             });
+        }
+        
+      // 
     }
     function update(){
         var node = $('#tt').tree('getSelected');
@@ -102,3 +134,36 @@
     </script>
     </div>
 <%@include file="../../commons/footer.jsp" %>
+<div class="modal fade" id="add_dialog" style="float: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="add_dialog_title"></h4>
+				</div>
+				
+				<div class="modal-body" id="add_dialog">
+				<table style="width: 100%; line-height: 25px;">
+				<tr>
+				  <td align="left">法规标题:</td>
+				  <td>
+				    <input id="title" type=text style="width: 100%" name="title">
+				    <input type="hidden"  name="parentId" id="parentId">
+				  </td>
+				  </tr>
+				  <tr><td>&nbsp;</td></tr>
+				  <tr>
+				  <td align="left">法规内容:</td>
+				  <td><textarea id="content"  style="width: 100% ; height:170px;"  name="content"></textarea></td>
+				</tr>
+				</table>
+				</div>
+				
+				<div class="modal-footer">
+				    <button type="button" onclick="appendx()" class="btn btn-info" >确定</button>
+ 					<button type="button" class="btn btn-white" data-dismiss="modal">取消</button> 
+				</div>
+			</div>
+		</div>
+	</div>
