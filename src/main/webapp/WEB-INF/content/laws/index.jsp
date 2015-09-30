@@ -24,7 +24,8 @@
 </div>
  <div style="float: right; width: 56% ; margin-left: 20px; ">
   <div style="padding: 10px; margin-top: 10px;" >
-    <div style="width:100%; line-height: 23px; letter-spacing: 1px; font-size: 13px;" readonly="readonly">
+    <div id="all_laws" style="width:100%; line-height: 23px; letter-spacing: 1px; font-size: 13px;" readonly="readonly">
+     
       <div id="laws_title"style="width: 100%; text-align: center; font-size: 17px;"></div>
       <div id="laws_content"style="width: 100%; text-align: left; font: 13px;margin-top: 12px;"></div>
    </div>
@@ -47,10 +48,16 @@
             },
 	        onClick:function(node){
 	        	nodeId =node.id;
-	        	$.post('show-laws.htm',{'_id':node.id},function(resp){
+	        	//单个
+	        	/* $.post('show-laws.htm',{'_id':node.id},function(resp){
 	        		$("#laws_title").html(resp.title);
 	        		$("#laws_content").html("&nbsp;&nbsp;&nbsp;&nbsp;"+resp.content);
-	        	},'json');
+	        	},'json'); */
+	        	$("#all_laws").html("<div style='width:100%; height:100%; margin-top:100px; text-align:center;'><img alt='' src='<%=request.getContextPath()%>/images/loading.gif'></div>");
+	        	  $.post('show-all-laws.htm',{'_id':node.id},function(resp){
+	        		$("#all_laws").html(resp);
+	        	});
+	        	
 	        },
 	        onContextMenu: function(e,node){
                 e.preventDefault();
@@ -86,7 +93,9 @@
     function refresh(){
      //   var node = $('#tt').tree('getSelected');
         $('#tt').tree('options').url = "load-laws-tree.htm?pid=0";
+        $("#all_laws").html('');
         $('#tt').tree('reload');
+       
     }
    
      

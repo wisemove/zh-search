@@ -9,7 +9,7 @@ public class TreeUtil {
 
 		
 		if(trees==null || trees.size()==0)
-			return "[{}]";
+			return "";
 		for (Tree tree : trees) {
 
 			sb.append("{");

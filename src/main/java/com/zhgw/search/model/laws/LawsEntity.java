@@ -82,6 +82,19 @@ public class LawsEntity implements Tree{
 		return false;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj instanceof LawsEntity ){
+			LawsEntity en = (LawsEntity) obj;
+			if(en.getId() == getId()){
+				return true;
+			}
+			return false;
+		}
+		return false ;
+		
+	}
 	
 	
 }

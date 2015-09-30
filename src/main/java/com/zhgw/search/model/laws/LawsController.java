@@ -66,10 +66,15 @@ public class LawsController {
 		LawsEntity entity = this.lawsService.get(_id);
 		
 		String json =  JSONObject.toJSONString(entity);
-		
-		System.out.println(json);
+		this.lawsService.getAllLaws(_id);
 		
 		return json;
 	}
 	
+	@RequestMapping("show-all-laws")
+	public String show_all_laws(String _id ,Model model  ){
+		List<LawsEntity> list = this.lawsService.getAllLaws(_id);
+		model.addAttribute("all_laws", list);
+		return WebContextConst.LAWS_PATH.concat("all-laws-temp");
+	}
 }
