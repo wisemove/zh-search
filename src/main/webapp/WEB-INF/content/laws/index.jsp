@@ -99,7 +99,7 @@
     	 }
     	 $.post('save-laws.htm',{'title':title,'content':content,'parentId':pid},function(resp){
     		 
-    		 $('#tt').tree('reload');
+    		 refresh();
     	 },'text');
     	 jQuery('#add_dialog').modal('hide');
     }

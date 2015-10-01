@@ -27,6 +27,8 @@ public class UserEntity {
 	
 	private String phone;
 	
+	private long instiId; //机构ID
+	
 	private int isValid ;
 	
 	private Date createDate ;
@@ -47,8 +49,17 @@ public class UserEntity {
 		this.userName = userName;
 	}
 
+
 	public String getPassword() {
 		return password;
+	}
+
+	public long getInstiId() {
+		return instiId;
+	}
+
+	public void setInstiId(long instiId) {
+		this.instiId = instiId;
 	}
 
 	public void setPassword(String password) {

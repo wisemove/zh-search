@@ -6,6 +6,8 @@ public class WebContextConst {
 	public static final String LAWS_PATH = "laws/";
 	
 	
+	public static final String INSTITUTION_PATH="insti/";
+	
 	
 	public static final String SUCCESS = "SUCCESS";
 	

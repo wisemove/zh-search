@@ -35,128 +35,14 @@
 
 
 <body class="page-body" >
-
 	<div class="settings-pane">
-			
 		<a href="#" data-toggle="settings-pane" data-animate="true">
 			&times;
 		</a>
-		
-		<div class="settings-pane-inner">
-			
-			<div class="row">
-				
-				<div class="col-md-4">
-					
-					<div class="user-info">
-						
-						<div class="user-image">
-							<a href="extra-profile.html">
-								<img src="<%=path %>/assets/images/user-2.png" class="img-responsive img-circle" />
-							</a>
-						</div>
-						
-						<div class="user-details">
-							
-							<h3>
-								<a href="extra-profile.html">${USER_SESSION_ATTR.realName }</a>
-								
-								<!-- Available statuses: is-online, is-idle, is-busy and is-offline -->
-								<span class="user-status is-online"></span>
-							</h3>
-							
-							<p class="user-title">Web Developer</p>
-							
-							<div class="user-links">
-								<a href="extra-profile.html" class="btn btn-primary">Edit Profile</a>
-								<a href="extra-profile.html" class="btn btn-success">Upgrade</a>
-							</div>
-							
-						</div>
-						
-					</div>
-					
-				</div>
-				
-				<div class="col-md-8 link-blocks-env">
-					
-					<div class="links-block left-sep">
-						<h4>
-							<span>Notifications</span>
-						</h4>
-						
-						<ul class="list-unstyled">
-							<li>
-								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk1" />
-								<label for="sp-chk1">Messages</label>
-							</li>
-							<li>
-								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk2" />
-								<label for="sp-chk2">Events</label>
-							</li>
-							<li>
-								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk3" />
-								<label for="sp-chk3">Updates</label>
-							</li>
-							<li>
-								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk4" />
-								<label for="sp-chk4">Server Uptime</label>
-							</li>
-						</ul>
-					</div>
-					
-					<div class="links-block left-sep">
-						<h4>
-							<a href="#">
-								<span>Help Desk</span>
-							</a>
-						</h4>
-						
-						<ul class="list-unstyled">
-							<li>
-								<a href="#">
-									<i class="fa-angle-right"></i>
-									Support Center
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa-angle-right"></i>
-									Submit a Ticket
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa-angle-right"></i>
-									Domains Protocol
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa-angle-right"></i>
-									Terms of Service
-								</a>
-							</li>
-						</ul>
-					</div>
-					
-				</div>
-				
-			</div>
-		
-		</div>
-		
 	</div>
-<!-- 	<div class="copyrights">Collect from <a href="http://www.mycodes.net/"  title="网站模板">网站模板</a></div> -->
 	<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
-			
-		<!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
-		<!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
-		<!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
 		<div class="sidebar-menu toggle-others fixed">
-			
 			<div class="sidebar-menu-inner">	
-				
 				<header class="logo-env">
 					
 					<!-- logo -->
@@ -247,21 +133,21 @@
 						</a>
 					</li>
 					<li>
-						<a href="mailbox-main.html">
+						<a href="<%=path %>/user/index.htm">
 							<i class="fa-user"></i>
 							<span class="title">用户管理</span>
-							<span class="label label-success pull-right">5</span>
+<!-- 							<span class="label label-success pull-right">5</span> -->
 						</a>
 					</li>
 					<li>
-						<a href="tables-basic.html">
+						<a href="javascript:void(0)">
 							<i class="fa-certificate"></i>
 							<span class="title">机构管理</span>
 						</a>
 						<ul>
 							<li>
-								<a href="tables-basic.html">
-									<span class="title">Basic Tables</span>
+								<a href="<%=path %>/insti/index.htm">
+									<span class="title">机构列表</span>
 								</a>
 							</li>
 							<li>
