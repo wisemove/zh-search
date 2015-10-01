@@ -207,7 +207,7 @@ public  class CommonDao<T> {
 		List<T> ls = queryAll(conditions);
 		if (ls != null && ls.size() > 0)
 			return ls.get(0);
-		logger.error("query Unique . no row returned .");
+		logger.warn("query Unique . no row returned .");
 		return null;
 		// ignore
 	}
