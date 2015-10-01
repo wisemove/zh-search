@@ -85,7 +85,9 @@
         $("#content").val('');
         $("#parentId").val(node.id);
         $("#add_dialog_title").html('添加法规');
+        $("#add_update_x").attr('onclick','appendx()');
         jQuery('#add_dialog').modal('show');
+        
     }
     function appendx (){
          pid  = $("#parentId").val();
@@ -96,7 +98,8 @@
     		 return
     	 }
     	 $.post('save-laws.htm',{'title':title,'content':content,'parentId':pid},function(resp){
-    		alert(resp) ;
+    		 
+    		 $('#tt').tree('reload');
     	 },'text');
     	 jQuery('#add_dialog').modal('hide');
     }
@@ -120,8 +123,47 @@
     }
     function update(){
         var node = $('#tt').tree('getSelected');
+        if(node.id==1){
+        	alert('操作不允许');
+        	return 
+        }
+        
         $('#tt').tree('collapse',node.target);
+        $.post('show-laws.htm',{'_id':node.id},function(res){
+        	$("#add_dialog_title").html('修改法规');
+            jQuery('#add_dialog').modal('show');
+            $("#title").val(res.title);
+            $("#content").val(res.content);
+            $("#_id").val(node.id);
+            $("#parentId").val(res.parentId);
+            $("#add_update_x").attr('onclick','updatex()');
+        },'json');
     }
+    
+    function updatex(){
+    	 params = {};
+    	 params ['title']= $("#title").val();
+    	 params['content']= $("#content").val();
+    	 params['id'] = $("#_id").val();
+    	 params['parentId'] = $("#parentId").val();
+    	if(!params['title']){
+    		alert('标题不能为空!');
+    		return ;
+    	}
+    	$.post('update-laws.htm' , params ,function(res){
+    		var node = $('#tt').tree('getSelected');
+    		// $('#tt').tree('options').url = "load-laws-tree.htm?pid="+node.id;
+    		 //$('#tt').tree('reload');
+    		$('#tt').tree('update',{
+    			target: node.target,
+    			text: params['title']
+    		});
+    		
+    		
+    	});
+    	 jQuery('#add_dialog').modal('hide');
+    }
+    
     function refresh(){
      //   var node = $('#tt').tree('getSelected');
         $('#tt').tree('options').url = "load-laws-tree.htm?pid=0";
@@ -150,6 +192,7 @@
 				  <td>
 				    <input id="title" type=text style="width: 100%" name="title">
 				    <input type="hidden"  name="parentId" id="parentId">
+				    <input type="hidden"  name="_id" id="_id">
 				  </td>
 				  </tr>
 				  <tr><td>&nbsp;</td></tr>
@@ -161,7 +204,7 @@
 				</div>
 				
 				<div class="modal-footer">
-				    <button type="button" onclick="appendx()" class="btn btn-info" >确定</button>
+				    <button id="add_update_x" type="button" class="btn btn-info" >确定</button>
  					<button type="button" class="btn btn-white" data-dismiss="modal">取消</button> 
 				</div>
 			</div>

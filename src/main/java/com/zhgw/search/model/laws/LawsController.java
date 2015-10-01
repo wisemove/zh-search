@@ -2,6 +2,7 @@ package com.zhgw.search.model.laws;
 
 import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,7 +53,10 @@ public class LawsController {
 	
 	@ResponseBody
 	@RequestMapping("update-laws")
-	public String update_laws(){
+	public String update_laws(LawsEntity laws ){
+		
+		System.out.println(ToStringBuilder.reflectionToString(laws));
+		this.lawsService.updateNotNull(laws);
 		
 		return WebContextConst.SUCCESS;
 	}
