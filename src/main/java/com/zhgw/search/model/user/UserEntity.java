@@ -4,9 +4,18 @@ import java.util.Date;
 
 import com.zhgw.search.common.Id;
 import com.zhgw.search.common.Table;
+import com.zhgw.search.common.Transient;
 
 @Table(name="t_user")
 public class UserEntity {
+
+	public String getInsti_name() {
+		return insti_name;
+	}
+
+	public void setInsti_name(String insti_name) {
+		this.insti_name = insti_name;
+	}
 
 	@Id()
 	private long id ;
@@ -28,6 +37,9 @@ public class UserEntity {
 	private String phone;
 	
 	private long instiId; //机构ID
+	
+	@Transient
+	private String insti_name ;//机构名称
 	
 	private int isValid ;
 	

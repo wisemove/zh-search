@@ -180,6 +180,13 @@ public class BeanUtil {
 			}
 			return v;
 		}
+		
+		
+		public <A> Transient getTransient(Field f ){
+			Transient  t = f.getAnnotation(Transient.class);
+			
+			return t;
+		}
 
 		public Id getId(Field f) {
 
@@ -259,6 +266,11 @@ public class BeanUtil {
 			for (Field field : clazz.getDeclaredFields()) {
 				field.setAccessible(true);
 				String fieldName = field.getName();
+				
+				Transient tr = AT.getTransient(field);
+				if(tr!=null && tr.value()==true){
+					continue;
+				}
 				String getMethod = "get" + StringUtils.substring(fieldName, 0, 1).toUpperCase() + StringUtils.substring(fieldName, 1);
 				Method m;
 				Object value = null;
