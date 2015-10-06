@@ -134,7 +134,21 @@ function validInputBox(inser_update){
 	return params;
 }
 
-
+function userName_blur(){
+	userName = $("#userName").val();
+	if(userName){
+	$.post('query-user-userName.htm',{'_userName':userName},function(r){
+		if(r){
+			alert('该用户名已经存在');
+			$("#add_update_x").attr('disabled','disabled');
+			return;
+		}else{
+			$("#add_update_x").removeAttr('disabled');
+		}
+	});
+	}
+	
+}
 /**
  * 加载用户 (只能加载一次)
  */

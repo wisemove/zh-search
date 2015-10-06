@@ -130,9 +130,7 @@ function load_once_instis(){
 	
 }
 
-//人员设置
-function setting_user(_id,_ins_name){
-	$("#user-setting-title").html("<font color=green>"+_ins_name +"</font>->人员设置");
+function load_nan_users_s(_id){
 	
 	//在此机构下的人员
 	$.post('query-users-byInsId.htm',{"_instiId":_id},function(result){
@@ -144,10 +142,19 @@ function setting_user(_id,_ins_name){
 		});
 		
 	});
-	
-	
+}
+
+
+var _insti_id_;
+//人员设置
+function setting_user(_id,_ins_name){
+	$("#user-setting-title").html("<font color=green>"+_ins_name +"</font>->人员设置");
+	load_nan_users_s(_id);
+	_insti_id_ = _id;
 	$("#user-setting").modal('show');
 };
+
+
 
 
 //添加人员 
@@ -158,8 +165,76 @@ function btn_add_user(){
 		alert('请选择人员列表进行添加.');
 		return;
 	}
-	alert(select_user);
 	
-	//$("#select-nan-instis-users ")
+	str='';
+	for(var i in select_user){
+	    nan_html= $("#select-nan-instis-users #nan_usr_option_"+select_user[i]);
+		if(nan_html.attr('isAuth')=='true'){
+			alert(nan_html.attr('title')+':\n\n 不能添加机构审核人.修改审核人为其他人后再试.');
+			return ;
+		}
+		if(nan_html.attr('isInsti')=='true'){
+			if(window.confirm('消息:\n确定要修改['+nan_html.attr('title')+']所在的机构['+nan_html.attr('insti_name')+']吗?' )){
+				
+			}else{
+				return ;
+			}
+		}
+		str = str+select_user[i]+',';
+	}
+	if(str.length!=0){
+		str = str.substring(0, str.length-1);
+	}
+	$.post('update-users-insti.htm',{'insti_id':_insti_id_ ,'_userIds':str},function(res){
+		load_nan_users_s(_insti_id_);
+	});
+	//
 	
+}
+
+function btn_delete_user(){
+	select_user=$("#select-instis-users").val();
+	if(!select_user){
+		alert('请选择机构人员列表进行移除.');
+		return;
+	}
+	
+
+	str='';
+	for(var i in select_user){
+	    nan_html= $("#select-instis-users #user_option_"+select_user[i]);
+		if(nan_html.attr('isAuth')=='true'){
+			alert(nan_html.attr('title')+':\n\n 不能添加机构审核人.修改审核人为其他人后再试.');
+			return ;
+		}
+		str = str+select_user[i]+',';
+	}
+	if(str.length!=0){
+		str = str.substring(0, str.length-1);
+	}
+	//如果insti_id =0 为删除用户所在的机构
+	$.post('update-users-insti.htm',{'insti_id':0 ,'_userIds':str},function(res){
+		load_nan_users_s(_insti_id_);
+	});
+}
+//设置部门审核人
+function setAuth(){
+	select_user=$("#select-instis-users").val();
+	if(!select_user){
+		alert('请选择机构人员.');
+		return;
+	}
+	if(select_user.length!=1){
+		alert('请选中一名人员进行设置.');
+		return ;
+	}
+	userId = select_user[0];
+	
+	$.post('update-user-audit.htm',{'_insti_id':_insti_id_,'_userId':userId},function(result){
+		if(result=='SUCCESS'){
+			load_nan_users_s(_insti_id_);
+		}else{
+			alert('设置失败!');
+		}
+	});
 }
