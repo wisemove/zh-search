@@ -32,7 +32,7 @@ padding: 0;
 				<tr id="userName_model" >
 				  <td align="left">用户名:</td>
 				  <td>
-				  <input type="text"id="userName"  name="userName" maxlength="32" placeholder="输入用户名" class="form-control " >
+				  <input type="text"id="userName"  onblur="userName_blur();" name="userName" maxlength="32" placeholder="输入用户名" class="form-control " >
 				    <input type="hidden"  name="id" id="user_d_id">
 				  </td>
 				  </tr>

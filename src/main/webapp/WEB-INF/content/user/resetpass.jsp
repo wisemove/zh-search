@@ -96,6 +96,9 @@
 	  
 	  $.post('resetpassx.htm',param,function(resp){
 		  $("#message_success_msg").html(resp);
+		  $("#password0").val('');
+		  $("#password1").val('');
+		  $("#password2").val('');
 		  jQuery('#message_success').modal('show');
 	   });
 	  
