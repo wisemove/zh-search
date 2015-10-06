@@ -105,4 +105,23 @@ public class UserController {
 		this.userService.save(entity);
 		return WebContextConst.SUCCESS;
 	}
+	
+	@RequestMapping("update-user")
+	@ResponseBody
+	public String update_user(UserEntity entity){
+		//设置为NULL 后不更新此值，但是对整形浮点有错误。
+		entity.setUserName(null);
+		entity.setPassword(null);
+		//System.out.println(ToStringBuilder.reflectionToString(entity));
+		this.userService.updateNotNull(entity);
+		return WebContextConst.SUCCESS;
+	}
+	
+	
+	@RequestMapping("delete-user")
+	@ResponseBody
+	public String delete_user(long _id ){
+		this.userService.delete(_id);
+		return WebContextConst.SUCCESS;
+	}
 }

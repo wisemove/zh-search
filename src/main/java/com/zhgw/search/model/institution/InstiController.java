@@ -1,15 +1,25 @@
 package com.zhgw.search.model.institution;
 
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhgw.search.common.Conditions;
 import com.zhgw.search.common.context.WebContextConst;
+import com.zhgw.search.model.user.UserEntity;
+import com.zhgw.search.model.user.UserService;
+import com.zhgw.search.util.DataTableUtils;
+import com.zhgw.search.util.DateUtil;
+import com.zhgw.search.util.PageResourceUtil;
 
 @Controller
 @RequestMapping("insti")
@@ -18,10 +28,48 @@ public class InstiController {
 	@Autowired
 	private InstiService instiService;
 
+	
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping("index")
 	public String index() {
 
+		
 		return WebContextConst.INSTITUTION_PATH.concat("index");
+	}
+
+	private PageResourceUtil pru = new PageResourceUtil("insti.handle.page");
+	
+	/**
+	 * 机构数据
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("query-instis-json")
+	@ResponseBody
+	public String query_instis_json() throws IOException {
+		StringBuffer sb = new StringBuffer();
+		List<InstiEntity> ies = this.instiService.queryAll(new Conditions());
+		String s = pru.getResource();
+
+		int size = ies.size();
+		int i = 1;
+		for (InstiEntity ie : ies) {
+			sb.append(DataTableUtils.getDataJsonFragment(ie.getIns_name(), 
+					ie.getIns_desc(), 
+					ie.getIsValid() == 0 ? "<font color=red>禁用</font>" : "<font color=green>启用</font>",
+					DateUtil.formatShortDate(ie.getCreateDate()	),
+					MessageFormat.format(s, ie.getId(),ie.getIns_name())
+					));
+			if (i++ != size) {
+				sb.append(",");
+			}
+		}
+
+		String result = DataTableUtils.setDataJsonHeader(sb.toString());
+		return result;
+
 	}
 
 	/**
@@ -67,5 +115,58 @@ public class InstiController {
 			sb = sb.deleteCharAt(sb.length() - 1);
 		}
 		return "[" + sb.toString() + "]";
+	}
+	
+	
+	@RequestMapping("save-instis")
+	@ResponseBody
+	public String save_instis(InstiEntity entity)
+	{
+	//	System.out.println(ToStringBuilder.reflectionToString(entity));
+		instiService.save(entity);
+		return WebContextConst.SUCCESS;
+	}
+	@RequestMapping("delete-insti")
+	@ResponseBody
+	public String delete_instis(long _id)
+	{
+	//	System.out.println(ToStringBuilder.reflectionToString(entity));
+		instiService.delete(_id);
+		return WebContextConst.SUCCESS;
+	}
+	@RequestMapping("query-insti-byid")
+	@ResponseBody
+	public String query_this_byId(long _id)
+	{
+		InstiEntity ie = instiService.get(_id);
+		
+		return JSONObject.toJSONString(ie);
+	}
+	@RequestMapping("update-insti")
+	@ResponseBody
+	public String update_insti(InstiEntity en )
+	{
+		//System.out.println(ToStringBuilder.reflectionToString(en));
+		instiService.updateNotNull(en);
+		return WebContextConst.SUCCESS;
+	}
+	
+	@RequestMapping("query-nan-users-byInsId")
+	public String getNanUsersByInstiId(long _instiId,Model model){
+
+		List<UserEntity> list = userService.getNanUsersByInsId(_instiId);
+		model.addAttribute("result", list);
+	/*	for(UserEntity ue : list ){
+			System.out.println(ToStringBuilder.reflectionToString(ue));
+		}*/
+		return WebContextConst.INSTITUTION_PATH.concat("nan-user-options");
+	}
+	
+	@RequestMapping("query-users-byInsId")
+	public String getUsersByInstiId(long _instiId,Model model){
+
+		List<UserEntity> list = userService.getUsersByInsId(_instiId);
+		model.addAttribute("result", list);
+		return WebContextConst.INSTITUTION_PATH.concat("user-options");
 	}
 }

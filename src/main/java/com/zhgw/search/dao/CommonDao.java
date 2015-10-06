@@ -38,7 +38,7 @@ public  class CommonDao<T> {
 	 */
 	
 	@Autowired
-	private   JdbcTemplate jdbcTemplate;
+	protected   JdbcTemplate jdbcTemplate;
 	
 	public CommonDao(){
 		
@@ -260,13 +260,26 @@ public  class CommonDao<T> {
 	    this.jdbcTemplate.update(sql, bin.param);
 	}
 	
+	/**
+	 * 仅限于字符串为NULL时， 不更新null值，但不适合于整型变量浮点。
+	 * @param t
+	 */
 	public void updateNotNull(T t){
 		InsertBin bin = BeanUtil.SQLT.updateSql(t,false);
 		String sql = bin.sql;
 		printSQL(sql);
 	    this.jdbcTemplate.update(sql, bin.param);
 	}
-	void printSQL(String sql) {
+	
+	
+	
+	public void delete(long id ){
+		String sql = "delete from "+this.table +" where id=?"; 
+		printSQL(sql);
+		this.jdbcTemplate.update(sql,id);
+	}
+	
+	protected void printSQL(String sql) {
 
 		logger.info("sql : {}", sql);
 	}

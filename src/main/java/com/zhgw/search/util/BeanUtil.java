@@ -9,6 +9,7 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -105,47 +106,55 @@ public class BeanUtil {
 				@SuppressWarnings("unchecked")
 				@Override
 				public T mapRow(ResultSet rs, int arg1) throws SQLException {
+					ResultSetMetaData rsmd = 	rs.getMetaData();
+					int sqlcount = rsmd.getColumnCount();
+					List<String> sqlFields = new ArrayList<String>();
+					for(int iif =1 ; iif <= sqlcount ; iif ++){
+						sqlFields .add(rsmd.getColumnLabel(iif));
+					}
 					Object obj = BeanUtil.newInstance(clazz);
 					for (Field f : BeanUtil.getDeclateFields(clazz)) {
-						Transient tr = f.getAnnotation(Transient.class);
-						if (tr != null && tr.value()) {
-							continue;
-						}
+					//	Transient tr = f.getAnnotation(Transient.class);
+						//if (tr != null && tr.value()) {
+							//continue;
+						//}
 						String fieldName = f.getName();
 						String setMethod = new String("set" + StringUtils.substring(fieldName, 0, 1).toUpperCase() + StringUtils.substring(fieldName, 1));
 						try {
-							Method M = clazz.getDeclaredMethod(setMethod, f.getType());
-							M.setAccessible(true);
-							Transient mt = M.getAnnotation(Transient.class);
-							if (mt != null && tr.value()) {
-								continue;
-							}
-							if (f.getType().equals(int.class) || f.getType().equals(Integer.class)) {
-								M.invoke(obj, rs.getInt(fieldName));
-							}
-							if (f.getType().equals(float.class) || f.getType().equals(Float.class)) {
-								M.invoke(obj, rs.getFloat(fieldName));
-							}
-							if (f.getType().equals(String.class)) {
-								M.invoke(obj, rs.getString(fieldName));
-							}
-							if (f.getType().equals(long.class) || f.getType().equals(Long.class)) {
-								M.invoke(obj, rs.getLong(fieldName));
-							}
-							if (f.getType().equals(double.class) || f.getType().equals(Double.class)) {
-								M.invoke(obj, rs.getDouble(fieldName));
-							}
-							if (f.getType().equals(java.util.Date.class)) {
-								String d = rs.getString(fieldName);
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-								M.invoke(obj, sdf.parse(d));
+							
+							if(sqlFields.contains(fieldName)){ //如果sql字段有当前class 的field值
+									Method M = clazz.getDeclaredMethod(setMethod, f.getType());
+									M.setAccessible(true);
+									
+									if (f.getType().equals(int.class) || f.getType().equals(Integer.class)) {
+										M.invoke(obj, rs.getInt(fieldName));
+									}
+									if (f.getType().equals(float.class) || f.getType().equals(Float.class)) {
+										M.invoke(obj, rs.getFloat(fieldName));
+									}
+									if (f.getType().equals(String.class)) {
+										M.invoke(obj, rs.getString(fieldName));
+									}
+									if (f.getType().equals(long.class) || f.getType().equals(Long.class)) {
+										M.invoke(obj, rs.getLong(fieldName));
+									}
+									if (f.getType().equals(double.class) || f.getType().equals(Double.class)) {
+										M.invoke(obj, rs.getDouble(fieldName));
+									}
+									if (f.getType().equals(java.util.Date.class)) {
+										String d = rs.getString(fieldName);
+										SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+										M.invoke(obj, sdf.parse(d));
+									}
 							}
 						} catch (Exception e) {
 							if (e instanceof SQLException) { // ignore this
 																// exception
 								logger.error("To parsing sql row occuer an exception : {}", e.getMessage());
+								e.printStackTrace();
 							} else {
 								logger.error("To reflect {} occur an Exception ! {} ", clazz.getName(), e.getMessage());
+								e.printStackTrace();
 							}
 						}
 
@@ -334,6 +343,12 @@ public class BeanUtil {
 			Object id_v = null;
 			for (Field field : clazz.getDeclaredFields()) {
 				field.setAccessible(true);
+				
+				Transient tr = AT.getTransient(field);
+				if(tr!=null && tr.value()==true){
+					continue;
+				}
+				
 				String fieldName = field.getName();
 				String getMethod = "get" + StringUtils.substring(fieldName, 0, 1).toUpperCase() + StringUtils.substring(fieldName, 1);
 				Method m;

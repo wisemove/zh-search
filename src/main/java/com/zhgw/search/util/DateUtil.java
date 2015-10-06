@@ -100,4 +100,12 @@ public class DateUtil {
 			return 7;
 		return 1;
 	}
+	
+	public static String formatShortDate(Date d ){
+		
+		if(d==null)
+			return "没有记录";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(d);
+	}
 }

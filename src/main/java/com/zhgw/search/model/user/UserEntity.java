@@ -45,6 +45,9 @@ public class UserEntity {
 	
 	private Date createDate ;
 
+	//0 普通人员，1 机构审核人，2终极审核人
+	private  String  authType; 
+	
 	public long getId() {
 		return id;
 	}
@@ -133,6 +136,15 @@ public class UserEntity {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
+	public String getAuthType() {
+		return authType;
+	}
+
+	public void setAuthType(String authType) {
+		this.authType = authType;
+	}
+
 	
 	
 }

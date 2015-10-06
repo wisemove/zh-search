@@ -14,7 +14,7 @@ function add_user(){
 	$("#add_update_x").attr('onclick','add_userx()');
 }
 function add_userx(){
-	 params = validInputBox();
+	 params = validInputBox('insert');
 	if(params){
 		//保存用户
 		$.post('save-user.htm',params,function(r){
@@ -31,6 +31,10 @@ function update_user(_id){
 		alert('发生错误.请稍刷新后后再试...');
 		return;
 	}
+	if(_id==1){
+		alert('操作不允许!');
+		return ;
+	}
 	//clearInput();
 	hide_show_common('hide');
 	$.post('query-user-byid.htm',{'_id':_id},function(json){
@@ -42,19 +46,64 @@ function update_user(_id){
 		$("#sex").combobox('setValue',json.sex).combobox('setText',json.sex==0?'女':'男');
 		$("#isValid").combobox('setValue',json.isValid).combobox('setText',json.isValid==0?'禁用':'启用');
 		$("#insti_state").combobox('setValue',json.instiId).combobox('setText',json.insti_name);
+		$("#add_user_dialog").modal('show');
+		$("#add_update_x").attr('onclick','update_userx('+_id+')');
 	},'json');
-	$("#add_user_dialog").modal('show');
+	
 }
+
+function update_userx(id){
+	var params = validInputBox('update');
+	if(params){
+		params['userName']=null;
+		params['password']=null;
+		params['id']=id;
+		$.post('update-user.htm',params,function(res){
+			$("#add_user_dialog").modal('hide');
+			$('#user-data').DataTable().ajax.reload();
+		});
+		
+	}
+}
+
+function delete_user(_id,authId){
+	if(_id==1){
+		alert('操作不允许!');
+		return ;
+	}
+	if(authId==1){ //是某个机构的审核人或者终审。
+		alert("当前用户为审核人.请把该部门的审核人改为其他人再试!");
+		return ;
+	}
+	if(authId ==2){
+		alert('不能删除终极审核人,请把终极审核人改为其他人再试!');
+		return ;
+	}
+	
+	if(window.confirm("确认要删除该用户吗?")){
+		
+		$.post('delete-user.htm',{'_id':_id} ,function(result){
+			if(result=='SUCCESS'){
+				
+				//$('#user-data').dataTable().fnDraw(false);
+				$('#user-data').DataTable().ajax.reload();
+			}
+		});
+	}
+	
+};
+
 
 function clearInput(){
 	$("#add_user_dialog input").val('');
 }
 
-function validInputBox(){
-	
-	userName = $("#userName").val();
-	password =$("#password").val();
-	password2=$("#password2").val();
+function validInputBox(inser_update){
+	if(inser_update=='insert'){
+		userName = $("#userName").val();
+		password =$("#password").val();
+		password2=$("#password2").val();
+	}
 	realName = $("#realName").val();
 	age =$("#age").val();
 	email = $("#email").val();
@@ -62,15 +111,16 @@ function validInputBox(){
 	sex =  $("#sex").combobox('getValue');
 	isValid = $("#isValid").combobox('getValue');
 	instiId = $("#insti_state").combobox('getValue');
-	
-	if(!userName){alert('请输入用户名');return ;	}
-	if(!password){alert('请输入密码');return ;	}
-	if(!password2){alert('请再次输入密码');return ;	}
-	if(password!=password2){alert('两次输入的密码不一致');return ;}
-	if(!password2){alert('请再次输入密码'); return ;	}
+	if(inser_update=='insert'){
+		if(!userName){alert('请输入用户名');return ;	}
+		if(!password){alert('请输入密码');return ;	}
+		if(!password2){alert('请再次输入密码');return ;	}
+		if(password!=password2){alert('两次输入的密码不一致');return ;}
+		if(!password2){alert('请再次输入密码'); return ;	}
+	}
 	if(!realName){alert('请输入真实姓名'); return ;	}
 	if(!age){alert('请输入年龄'); return ;	}
-	if(!age.match(/^[0-9].*$/)){alert('请输入正确的年龄'); return ;	}
+	if(!age.match(/^[0-9][0-9]$/)){alert('请输入正确的年龄'); return ;	}
 	if(!email){alert('请输入电子邮箱'); return ;	}
 	if(!email.match(/[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+$/)){alert('请输入正确的邮箱') ; return ;}
 	if(!phone){alert('请输入电话'); return ;	}
