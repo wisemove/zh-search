@@ -96,13 +96,8 @@
 						</a>
 						<ul>
 							<li>
-								<a href="layout-variants.html">
-									<span class="title">法规审查</span>
-								</a>
-							</li>
-							<li>
 								<a href="<%=request.getContextPath() %>/laws/index.htm">
-									<span class="title">法规录入</span>
+									<span class="title">法规列表</span>
 								</a>
 							</li>
 						</ul>
@@ -131,13 +126,32 @@
 							<i class=" fa-unlock-alt"></i>
 							<span class="title">权限管理</span>
 						</a>
+						<ul>
+							<li>
+								<a href="<%=path %>/permit/index-page.htm">
+									<span class="title">模块权限</span>
+								</a>
+							</li>
+							<li>
+								<a href="<%=path %>/permit/index-audit.htm">
+									<span class="title">审核权限</span>
+								</a>
+							</li>
+						</ul>
 					</li>
 					<li>
-						<a href="<%=path %>/user/index.htm">
+						<a href="javascript:void(0)">
 							<i class="fa-user"></i>
 							<span class="title">用户管理</span>
 <!-- 							<span class="label label-success pull-right">5</span> -->
 						</a>
+						<ul>
+							<li>
+								<a href="<%=path %>/user/index.htm">
+									<span class="title">用户列表</span>
+								</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
@@ -148,87 +162,6 @@
 							<li>
 								<a href="<%=path %>/insti/index.htm">
 									<span class="title">机构列表</span>
-								</a>
-							</li>
-							<li>
-								<a href="tables-responsive.html">
-									<span class="title">Responsive Table</span>
-								</a>
-							</li>
-							<li>
-								<a href="tables-datatables.html">
-									<span class="title">Data Tables</span>
-								</a>
-							</li>
-						</ul>
-					</li>
-					
-					
-					
-					<li>
-						<a href="#">
-							<i class="linecons-cloud"></i>
-							<span class="title">Menu Levels</span>
-						</a>
-						<ul>
-							<li>
-								<a href="#">
-									<i class="entypo-flow-line"></i>
-									<span class="title">Menu Level 1.1</span>
-								</a>
-								<ul>
-									<li>
-										<a href="#">
-											<i class="entypo-flow-parallel"></i>
-											<span class="title">Menu Level 2.1</span>
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<i class="entypo-flow-parallel"></i>
-											<span class="title">Menu Level 2.2</span>
-										</a>
-										<ul>
-											<li>
-												<a href="#">
-													<i class="entypo-flow-cascade"></i>
-													<span class="title">Menu Level 3.1</span>
-												</a>
-											</li>
-											<li>
-												<a href="#">
-													<i class="entypo-flow-cascade"></i>
-													<span class="title">Menu Level 3.2</span>
-												</a>
-												<ul>
-													<li>
-														<a href="#">
-															<i class="entypo-flow-branch"></i>
-															<span class="title">Menu Level 4.1</span>
-														</a>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a href="#">
-											<i class="entypo-flow-parallel"></i>
-											<span class="title">Menu Level 2.3</span>
-										</a>
-									</li>
-								</ul>
-							</li>
-							<li>
-								<a href="#">
-									<i class="entypo-flow-line"></i>
-									<span class="title">Menu Level 1.2</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="entypo-flow-line"></i>
-									<span class="title">Menu Level 1.3</span>
 								</a>
 							</li>
 						</ul>
@@ -541,7 +474,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="<%=request.getContextPath() %>/user/persion-info.htm">
+								<a href="<%=request.getContextPath() %>/person/whoami.htm">
 									<i class="fa-user"></i>
 									 个人信息
 								</a>
