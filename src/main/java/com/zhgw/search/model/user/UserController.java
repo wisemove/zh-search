@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,13 +87,16 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping("resetpassx")
-	public String resetpassx(String password0,String password1){
+	public String resetpassx(String password0,String password1,HttpSession session){
 		
-		String session_pass = ((UserEntity)request.getSession().getAttribute(UserContext.USER_SESSION)).getPassword();
+		UserEntity ue = (UserEntity) session.getAttribute(UserContext.USER_SESSION);
+		
+		String session_pass = ue.getPassword();
 		if(!password0.equals(session_pass)){
 			return "旧密码错误,请重新输入";
 		}
-		System.out.println(password0 +"   "+password1);
+		ue.setPassword(password1);
+		userService.update(ue);
 		return "密码修改成功";
 	}
 	
@@ -102,6 +106,7 @@ public class UserController {
 	public String save_users(UserEntity entity ){
 		
 //		System.out.println(ToStringBuilder.reflectionToString(entity));
+		entity.setAuthType(UserContext.GENERAL_USER);
 		this.userService.save(entity);
 		return WebContextConst.SUCCESS;
 	}
@@ -112,6 +117,7 @@ public class UserController {
 		//设置为NULL 后不更新此值，但是对整形浮点有错误。
 		entity.setUserName(null);
 		entity.setPassword(null);
+		entity.setAuthType(null);
 		//System.out.println(ToStringBuilder.reflectionToString(entity));
 		this.userService.updateNotNull(entity);
 		return WebContextConst.SUCCESS;
@@ -124,4 +130,15 @@ public class UserController {
 		this.userService.delete(_id);
 		return WebContextConst.SUCCESS;
 	}
+	@RequestMapping("query-user-userName")
+	@ResponseBody
+	public boolean  queryUserByUserName(String _userName){
+		
+		UserEntity u = userService.queryUnique(new Conditions().eq("userName", _userName));
+		
+		if(u!=null )
+			return true;
+		return false;
+	}
+		
 }
