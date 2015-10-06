@@ -43,12 +43,15 @@ public class IndexController {
 	@RequestMapping("loginx")
 	public String loginex_index(String userName ,String password,Model model ){
 		UserEntity ue = userService.chkUser(userName, password);
-		System.out.println(userName +"   "+ password);
-		
 		if(ue ==null ){
 			model .addAttribute("msg", "用户名或密码错误.");
 			return "login";
 		}
+		if(ue.getIsValid() ==0){
+			model .addAttribute("msg", "您已经被禁止登陆，<br>请与管理员联系.");
+			return "login";
+		}
+		
 		request.getSession().setAttribute(UserContext.USER_SESSION, ue);
 		return "redirect:index.htm";
 	}
