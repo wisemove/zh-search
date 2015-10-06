@@ -1,6 +1,6 @@
 <%@page contentType="text/html; charset=utf-8" %> 
 <div class="modal fade" id="user-setting" >
-		<div class="modal-dialog" style="width:55%">
+		<div class="modal-dialog" style="width:62%">
 			<div class="modal-content" >
 				
 				<div class="modal-header">
@@ -16,7 +16,7 @@
 				    &nbsp;
 				     <span style="float: left; " >&nbsp;该部门下人员</span> 
 				     <span style="float: right; margin-right: 20px;">&nbsp;
-				     <button class="btn btn-success btn-xs btn-icon">
+				     <button onclick="setAuth();" class="btn btn-success btn-xs btn-icon">
 								<i class="fa-pencil"></i>
 								<span>设置为部门审核人</span>
 					</button>
@@ -28,7 +28,7 @@
 				
 				
 				   <!-- 中间操作按钮 -->
-				  <div style="float: left; width: 10%;margin-top: 128px; margin-left: 26px;" >
+				  <div style="float: left; width: 10%;margin-top: 128px; margin-left: 35px;" >
 				   <div><button onclick="btn_add_user()" class="btn btn-blue btn-xs">&lt;&lt;添加人员</button></div>
 				   <div style="margin-top: 5px;"><button onclick="btn_delete_user()" class="btn btn-red btn-xs">&gt;&gt;删除人员</button></div>
 				  </div>
