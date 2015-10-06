@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhgw.search.common.Conditions;
+import com.zhgw.search.common.context.UserContext;
 import com.zhgw.search.common.context.WebContextConst;
 import com.zhgw.search.model.user.UserEntity;
 import com.zhgw.search.model.user.UserService;
@@ -169,4 +170,45 @@ public class InstiController {
 		model.addAttribute("result", list);
 		return WebContextConst.INSTITUTION_PATH.concat("user-options");
 	}
+	
+	//修改用户所在的机构 
+	@RequestMapping("update-users-insti")
+	@ResponseBody
+	public String update_user_insti(long insti_id , String _userIds){
+		if(_userIds !=null ){
+			String  [] userIds = _userIds.split(",");
+			for(String uid : userIds){
+				 if(uid !=null && !uid.trim().equals(""))
+				 {
+					 UserEntity ue = userService.get(Long.parseLong(uid));
+					 ue.setInstiId(insti_id);
+					 userService.update(ue);
+				 }
+			}
+		}
+		return WebContextConst.SUCCESS;
+	}
+	
+	//设置为部门审核人 每个机构有唯一一位审核人
+	@ResponseBody
+	@RequestMapping("update-user-audit")
+	public String update_user_audit(long _insti_id,long _userId){
+		
+		List<UserEntity> ens = this.userService.queryAll(new Conditions().eq("instiId", _insti_id));
+		if(ens !=null && ens.size() !=0){
+			for(UserEntity en : ens ){
+				if(en.getAuthType() .equals(UserContext.AUDIT_USER)){
+					//如果是审核人设置为普通用户
+					en.setAuthType(UserContext.GENERAL_USER);
+					userService.update(en);
+				}
+			}
+			
+		}
+		UserEntity ue = userService.get(_userId);
+		ue.setAuthType(UserContext.AUDIT_USER);
+		userService.update(ue);
+		return WebContextConst.SUCCESS;
+	}
+
 }
