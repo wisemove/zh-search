@@ -18,6 +18,8 @@ public class WebContextConst {
 	public static final String INSTITUTION_PATH="insti/";
 	
 	
+	public static final String PERSON_PATH="person/";
+	
 	public static final String SUCCESS = "SUCCESS";
 	
 	
