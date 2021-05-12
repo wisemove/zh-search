@@ -10,7 +10,7 @@
 	<properties>
 		<java-version>1.6</java-version>
 		<org.apache.lucene>4.3.0</org.apache.lucene>
-		<org.apache.solr>4.3.0</org.apache.solr>
+		<org.apache.solr>8.8.2</org.apache.solr>
 		<org.hibernate-version>3.5.0-Final</org.hibernate-version>
 		<org.springframework-version>3.0.5.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.7.0</org.aspectj-version>
